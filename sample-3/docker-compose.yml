@@ -1,0 +1,54 @@
+version: '3'
+services:
+  django:
+    build:
+      context: DjangApp
+    ports:
+      - 8000:8000
+    links:
+      - database
+      - rabbitmq
+    depends_on:
+      - database
+      - rabbitmq
+    volumes:
+      - ./DjangApp/DjangApp:/opt/DjangApp
+    restart: always
+    environment:
+      PORT: 8000
+      CLOUDAMQP_URL: amqp://rabbit:rabbit@rabbitmq:5672
+    command: /opt/dev.sh
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - 80:80
+    links:
+      - django
+    environment:
+      PORT: 80
+      DJANGO_APP: django:8000
+  database:
+    image: mariadb
+    restart: always
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mysql-vol:/var/lib/mysql 
+    environment:
+      MYSQL_DATABASE: django
+      MYSQL_USER: django
+      MYSQL_PASSWORD: django
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_RANDOM_ROOT_PASSWORD: "no"
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    ports:
+      - 5672:5672
+    environment:
+     RABBITMQ_DEFAULT_USER: rabbit
+     RABBITMQ_DEFAULT_PASS: rabbit
+
+
