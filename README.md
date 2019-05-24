@@ -11,11 +11,11 @@ For this workshop you need to install the following.
     
 I have split the samples by tag so you can just check out the complete code for each sample.
     
-Sample 1: ```git checkout tag 'sample-1'``` 
+Sample 1: ```git checkout tags/sample-1``` 
 
-Sample 2: ```git checkout tag 'sample-2'```
+Sample 2: ```git checkout tags/sample-2```
 
-Sample 2  ```git checkout tag 'sample-3'```
+Sample 2  ```git checkout tags/sample-3```
 
 
 #### How to setup the Heroku applications
